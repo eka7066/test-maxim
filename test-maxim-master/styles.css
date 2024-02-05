@@ -1,0 +1,520 @@
+@font-face {
+    font-family: 'Heebo';
+    src: url('./fonts/Heebo-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Heebo';
+    src: url('./fonts/Heebo-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+/**
+  Нормализация блочной модели
+ */
+ *,
+ *::before,
+ *::after {
+   box-sizing: border-box;
+ }
+ 
+ /**
+   Убираем внутренние отступы слева тегам списков,
+   у которых есть атрибут class
+  */
+ :where(ul, ol):where([class]) {
+   padding-left: 0;
+ }
+ 
+ /**
+   Убираем внешние отступы body и двум другим тегам,
+   у которых есть атрибут class
+  */
+ body,
+ :where(blockquote, figure):where([class]) {
+   margin: 0;
+ }
+ 
+ /**
+   Убираем внешние отступы вертикали нужным тегам,
+   у которых есть атрибут class
+  */
+ :where(
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6,
+   p,
+   ul,
+   ol,
+   dl
+ ):where([class]) {
+   margin-block: 0;
+ }
+ 
+ :where(dd[class]) {
+   margin-left: 0;
+ }
+ 
+ :where(fieldset[class]) {
+   margin-left: 0;
+   padding: 0;
+   border: none;
+ }
+ 
+ /**
+   Убираем стандартный маркер маркированному списку,
+   у которого есть атрибут class
+  */
+ :where(ul[class]) {
+   list-style: none;
+ }
+ 
+ /**
+   Обнуляем вертикальные внешние отступы параграфа,
+   объявляем локальную переменную для внешнего отступа вниз,
+   чтобы избежать взаимодействие с более сложным селектором
+  */
+ p {
+   --paragraphMarginBottom: 24px;
+ 
+   margin-block: 0;
+ }
+ 
+ /**
+   Внешний отступ вниз для параграфа без атрибута class,
+   который расположен не последним среди своих соседних элементов
+  */
+ p:where(:not([class]):not(:last-child)) {
+   margin-bottom: var(--paragraphMarginBottom);
+ }
+ 
+ 
+ /**
+   Упрощаем работу с изображениями
+  */
+ img {
+   display: block;
+   max-width: 100%;
+ }
+ 
+ /**
+   Наследуем свойства шрифт для полей ввода
+  */
+ input,
+ textarea,
+ select,
+ button {
+   font: inherit;
+ }
+ 
+ html {
+   /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+   height: 100%;
+   /**
+     Плавный скролл
+    */
+   scroll-behavior: smooth;
+ }
+ 
+ body {
+   /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+   min-height: 100%;
+   /**
+     Унифицированный интерлиньяж
+    */
+   line-height: 1.5;
+ }
+ 
+ /**
+   Приводим к единому цвету svg-элементы
+  */
+ svg *[fill] { fill: currentColor }
+ svg *[stroke] { stroke: currentColor }
+ 
+ /**
+   Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+  */
+ svg * {
+   transition-property: fill, stroke;
+ }
+ 
+ /**
+   Удаляем все анимации и переходы для людей,
+   которые предпочитают их не использовать
+  */
+ @media (prefers-reduced-motion: reduce) {
+   * {
+     animation-duration: 0.01ms !important;
+     animation-iteration-count: 1 !important;
+     transition-duration: 0.01ms !important;
+     scroll-behavior: auto !important;
+   }
+ }
+
+
+ /*Глобальные переменные*/
+:root {
+    --color-dark-blue: #0d1728;
+    --color-blue-alternate: #2E8B57;
+    --color-light-blue: #314671;
+    --color-light: #ffffff;
+    --color-orange:#FFD700;
+
+    --border-radius: 30px;
+    --border: 1px solid var(--color-dark-blue);
+
+    --font-family-base: 'Heebo', sans-serif;
+
+    --container-width: 1300px;
+    --container-padding-x: 20px;
+    --section-padding-y: 70px;
+    
+    --transition-duration: 0.2s;
+
+    --button-height: 68px;
+ }
+
+a, button, input, textarea,  svg * {
+    transition-duration: var(--transition-duration);
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+a:hover {
+    color: #dad7d7;
+}
+p {
+    margin-block: 0;
+  } 
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    font-size: clamp(20px, 3.10vw, 70px);
+}
+
+
+
+body {
+  position: relative;
+    font-family: var(--font-family-base);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--color-light);
+    background-color: var(--color-dark-blue); 
+ }
+
+ body::after {
+  content: "";
+  background: url('./img/3wallpaper.jpg');
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+  background-position: left bottom;
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;   
+}
+.container {
+    max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+    margin-inline: auto;
+    padding-inline: var(--container-padding-x);
+}
+
+
+
+.title-medium {
+    font-size: clamp(13px, 1.20vw, 20px);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.gold-medal::before {
+    content: '';
+    background: url('./img/icons/medals/11.png') center/contain no-repeat;
+    display: block;
+    top: 10%;
+    left: 3%;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    translate: -50% -50%;
+    width: 100px;
+    height: 100px;
+}
+.silver-medal::before  {
+    content:'';
+    background-image: url('./img/icons/medals/22.png');
+    display: block;
+    top: 10%;
+    left: 3%;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    translate: -50% -50%;
+    width: 100px;
+    height: 100px;
+}
+.bronze-medal::before  {
+    content:'';
+    background-image: url('./img/icons/medals/33.png');
+    display: block;
+    top: 10%;
+    left: 3%;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    translate: -50% -50%;
+    width: 100px;
+    height: 100px;
+}
+
+
+.header-logo {
+    padding-top: 20px;
+    display: inline-flex;
+    flex-shrink: 0;
+}
+.header-logo-title {
+    display: flex;
+    text-transform: uppercase;
+    font-size: clamp(20px, 2.55vw, 60px);
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.header-title {
+  text-align: center;
+  font-size: clamp(20px, 3.10vw, 70px);
+  color: var(--color-orange);
+}
+
+.banner {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center; 
+    margin-bottom: 40px; 
+}
+
+.banner-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.banner-body {
+    position: relative;
+    background-color: var(--color-blue-alternate);
+    width: 100%;
+    display: inline-flex;
+    column-gap: 20px;
+    padding: 20px 20px;
+    border-radius: var(--border-radius);
+    min-height: 280px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.banner-description {
+    display: inline-flex;
+    column-gap: 20px;
+}
+
+.casino-img {
+    border-radius: var(--border-radius);
+    margin-bottom: 5px;
+    height: auto;
+}
+
+
+.stars {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.banner-prize  {
+  width: clamp(120px, 13.05vw, 160px);
+}
+.banner-fspeen {
+    width: clamp(120px, 13.05vw, 200px);
+}
+
+.prize-list, .fspeen-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.prize-item, .fspeen-item  {
+    margin-bottom: 20px;
+}
+
+
+
+.accent {
+    font-size: clamp(15px, 2.22vw, 30px);
+    color: #ffbc36;
+    animation: 2s neon-2 alternate-reverse infinite;
+}
+
+.info-item-list {
+    text-align: left;
+    line-height: 1.5;
+}
+
+.info-item-list-item {
+    font-size: clamp(14px, 1.20vw, 20px);
+    text-align: left;
+}
+
+.info-item-list-item::before {
+    content: '\2714';
+    color: #ffbc36;
+}
+
+.banner-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  width: clamp(230px, 30.76vw, 400px); 
+}
+
+
+
+.banner-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #ff4709, #e68a4d);
+    font-weight: 700;
+    font-size: clamp(15px, 1.60vw, 20px);
+    border-radius: 10px;
+    width: 250px;
+    height: 60px;
+}
+.banner-wrapper-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.banner-link-button {
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    height: 80%;
+}
+
+
+@keyframes neon-2 {
+  from {
+      text-shadow: 0 0 5px #FFF,
+      0 0 10px #FFF,
+      0 0 15px #FFF,
+      0 0 20px #ffbfbf;
+  }
+  to {
+      text-shadow: 0 0 1px #ffbfbf,
+      0 0 10px #ffbfbf,
+      0 0 20px #ffbfbf,
+      0 0 15px #ffbfbf,
+      0 0 800px #ffbfbf;
+  }
+}
+
+
+@media (max-width: 1016px) {
+     .banner-button {
+        width: 200px;
+        height: 50px;
+    }
+    .prize-item, .fspeen-item, .info-item {
+        margin-bottom: 5px;
+    }
+    .info-deposit {
+        bottom: 15px;
+        right: 300px;
+    }
+    
+}
+
+@media (max-width: 805px) {
+    .banner-body {
+        column-gap: 20px;
+    }
+    .banner-img {
+        margin-right: 10px;
+    }
+    .banner-img {
+        max-width: 60%;
+    }
+    .info-deposit {
+        right: 270px;
+    }
+   .gold-medal::before, .silver-medal::before, .bronze-medal::before {
+        top: 7%;
+        left: 7%;
+    }
+    .banner-img {
+        margin-right: 0;
+    }
+    .banner-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        row-gap: 20px;
+        width: 75%;
+    }
+    .banner-button {
+       position: static;
+       margin-top: 10px;
+    }
+    .banner-description {
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      row-gap: 15px;
+    }
+    .info-item-list-item {
+        font-size: 15px;
+    }
+}
+ 
+@media (max-width: 395px) {
+    .header-logo-img {
+        width: 50px;
+        height: auto;
+    }
+    .banner-description {
+        column-gap: 10px;
+    }
+    .banner-prize, .banner-fspeen {
+        max-width: 100px;    
+    }
+}
